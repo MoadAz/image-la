@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie de photos interactive</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .large-image {
+            width: 500px;
+            height: auto;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+        }
+        .thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+        .thumbnail {
+            width: 100px;
+            height: auto;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .thumbnail:focus {
+            outline: 2px solid #007BFF;
+        }
+    </style>
+</head>
+<body onload="setupThumbnailEvents()">
+    <h1>Ma Galerie de Photos Interactive</h1>
+    <div class="gallery">
+        <img id="large-image" src="images/default.jpg" alt="Image en grand" class="large-image">
+        <div class="thumbnails">
+            <img src="https://st3.depositphotos.com/1035350/17549/i/450/depositphotos_175495606-stock-photo-hollywood-boulevard-california.jpg" alt="Los Angeles sunset kissed" class="thumbnail">
+            <img src="https://img.freepik.com/photos-premium/amerique-etats-unis-los-angeles_842717-4457.jpg" alt="Los Angeles by night" class="thumbnail">
+            <img src="https://st3.depositphotos.com/3475021/19185/i/450/depositphotos_191851012-stock-photo-image-showing-view-city-los.jpg" alt="Sunrise in Los Angeles" class="thumbnail">
+            <img src="https://www.visittheusa.fr/sites/default/files/styles/hero_l/public/images/hero_media_image/2017-01/Getty_515070156_EDITORIALONLY_LosAngeles_HollywoodBlvd_Web72DPI_0.jpg?h=0a8b6f8b&itok=B_VKqykq" alt="Los Angeles downtown" class="thumbnail">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/20190616154621%21Echo_Park_Lake_with_Downtown_Los_Angeles_Skyline.jpg/800px-20190616154621%21Echo_Park_Lake_with_Downtown_Los_Angeles_Skyline.jpg" alt="Los Angeles 2016 vibe" class="thumbnail">
+            <img src="https://decouvrirensemble.com/wp-content/uploads/2017/12/Los-angeles-blog-voyage.jpg" alt="Los Angeles beach" class="thumbnail">
+        </div>
+    </div>
+    <script>
+        function setupThumbnailEvents() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const largeImage = document.getElementById('large-image');
+
+            thumbnails.forEach((thumbnail, index) => {
+                // Ajouter tabindex pour l'accessibilité clavier
+                thumbnail.setAttribute('tabindex', 0);
+
+                // Événement au survol de la souris
+                thumbnail.addEventListener('mouseover', () => {
+                    largeImage.src = thumbnail.src;
+                    largeImage.alt = thumbnail.alt;
+                    console.log(`Mouse over image ${index + 1}`);
+                });
+
+                // Événement de mise au point (focus clavier)
+                thumbnail.addEventListener('focus', () => {
+                    largeImage.src = thumbnail.src;
+                    largeImage.alt = thumbnail.alt;
+                    console.log(`Focus on image ${index + 1}`);
+                });
+
+                // Événement de sortie de la souris
+                thumbnail.addEventListener('mouseleave', () => {
+                    resetLargeImage();
+                    console.log(`Mouse leave image ${index + 1}`);
+                });
+
+                // Événement de perte de focus (clavier)
+                thumbnail.addEventListener('blur', () => {
+                    resetLargeImage();
+                    console.log(`Blur on image ${index + 1}`);
+                });
+            });
+        }
+
+        function resetLargeImage() {
+            const largeImage = document.getElementById('large-image');
+            largeImage.src = 'images/default.jpg'; // Remplacez par votre image par défaut
+            largeImage.alt = 'Image en grand';
+        }
+    </script>
+</body>
+</html>
